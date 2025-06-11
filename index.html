@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Music</title>
     <link rel="stylesheet" href="./assets/styles/index.css">
+    <link rel="shortcut icon" href="assets/icons/icon.svg" type="image/x-icon">
 </head>
 
 <body>
@@ -22,6 +23,7 @@
         <h2>
             informações Da Musica
         </h2>
+
         <fieldset class="input-control">
             <input type="text" id="input_nome_da_musica" placeholder="Otonoke" required>
             <label for="input_nome_da_musica">
@@ -367,14 +369,6 @@
 
         }
 
-        function registerMusicTest() {
-            const music = JSON.parse('{"title":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"review"}')
-
-            for (let index = 0; index < 1; index++) {
-                playlist.push(music)
-
-            }
-        }
 
         function updateYearOfReleaseByTitle() {
             const title = input_nome_da_musica.value
@@ -650,6 +644,15 @@
                 }
             }
         }
+        function registerMusicTest() {
+            const music = JSON.parse('{"title":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"https://i.scdn.co/image/ab67616d0000b2733863c7a4f0284c0a595905f8"}')
+
+            for (let index = 0; index < 1; index++) {
+                playlist.push(music)
+
+            }
+        }
+
     </script>
 
 </body>
