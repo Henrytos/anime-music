@@ -1,9 +1,4 @@
 
-
-Claro! Aqui está o texto formatado como um `README.md` para GitHub, com organização, títulos em markdown, ícones e blocos de código para facilitar a leitura:
-
----
-
 # 🎵 Desafio: Gerenciador de Playlist Musical
 
 Você foi contratado para desenvolver um sistema de gerenciamento de uma **playlist de músicas**, que será utilizado por um aplicativo de streaming.

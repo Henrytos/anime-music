@@ -9,6 +9,260 @@
 
 <body>
 
+    <form>
+        <h2>
+            Dados Da Musica
+        </h2>
+        <fieldset class="input-control">
+            <label for="input_nome_da_musica">
+                Nome da Musica:
+            </label>
+
+            <input type="text" id="input_nome_da_musica" placeholder="Otonoke">
+        </fieldset>
+
+        <fieldset class="input-control">
+            <label for="input_nome_da_banda">
+                Nome da band:
+            </label>
+
+            <input type="text" id="input_nome_da_banda" placeholder="Creepy Nuts">
+        </fieldset <fieldset class="input-control">
+        <label for="input_duracao_da_musica">
+            Duração da Música(minutos):
+        </label>
+
+        <input type="number" id="input_duracao_da_musica" placeholder="5">
+        </fieldset>
+
+        <fieldset class="input-control">
+            <label for="input_ano_lancamento">
+                Ano de lançamento:
+            </label>
+
+            <input type="text" id="input_ano_lancamento" placeholder="2024">
+        </fieldset>
+
+        <fieldset class="input-control">
+            <label for="input_avalacoes">
+                Avaliações da Música:
+            </label>
+
+            <input type="text" id="input_avalacoes" placeholder="5, 4, 3, 4">
+        </fieldset>
+
+        <fieldset class="input-control">
+            <label for="input_integrantes">
+                integrantes da band:
+            </label>
+
+            <input type="text" id="input_integrantes" placeholder="DJ Matsunaga, R-Shitei">
+        </fieldset>
+
+        <fieldset class="input-control">
+            <label for="input_cover">
+                cover da musica:
+            </label>
+
+            <input type="text" id="input_cover" placeholder="image url....">
+        </fieldset>
+
+    </form>
+
+    <div class="buttons-actions">
+        <button type="button" onclick="registerMusic()">
+            Adicionar Música
+        </button>
+        <button type="button" onclick="listMusics()">
+            Listar Musicas
+        </button>
+    </div>
+
+    <main class="playlist" id="main_list_musics">
+
+    </main>
+
+
+
+    <div id="div_sonner">
+
+    </div>
+
+    <script>
+
+        const playlist = []
+
+
+        function registerMusic() {
+            const titleMusic = input_nome_da_musica.value
+            const band = input_nome_da_banda.value
+            const durationInMinutes = Number(input_duracao_da_musica.value)
+            const yearOfRelease = Number(input_ano_lancamento.value)
+            const typedReviews = input_avalacoes.value
+            const typedMembers = input_integrantes.value
+            const cover = input_cover.value
+
+            let titleSonner = ''
+            let descriptionSonner = ''
+
+            let isValidMusic = true
+
+            if (titleMusic == "") {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(titulo)'
+                descriptionSonner = 'Por favor informe o titulo da música'
+            }
+
+            if (band == "" && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(banda)'
+                descriptionSonner = 'Por favor informe o nome da banda'
+            }
+
+            if (durationInMinutes == 0 && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(duração)'
+                descriptionSonner = 'Por favor informe a duração da música'
+            }
+
+
+
+            if (yearOfRelease == 0 && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(ano de lançamento)'
+                descriptionSonner = 'Por favor informe a o ano de lançamento da música'
+            }
+
+            if (typedReviews == "" && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(avaliações)'
+                descriptionSonner = 'Por favor informe as avaliações da música'
+            }
+
+
+            if (typedMembers == "" && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(integrantes)'
+                descriptionSonner = 'Por favor informe os integrates da banda'
+            }
+
+            if (cover == "" && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música(capa)'
+                descriptionSonner = 'Por favor informe a url da capa da música'
+            }
+
+            if (isValidMusic) {
+
+                const reviews = typedReviews.split(",").map(Number);
+                const members = typedMembers.split(",");
+
+                playlist.push({
+                    titleMusic,
+                    band,
+                    durationInMinutes,
+                    yearOfRelease,
+                    reviews,
+                    members,
+                    cover
+                })
+
+                titleSonner = 'Sucesso ao adicionar Música'
+                descriptionSonner = ` A band(${band}) conseguiu guardar sua musica(${titleMusic}) com sucesso `
+
+            }
+
+            div_sonner.innerHTML = `
+                    <span class='sonner'>
+                        <h3 class='sonner-title'>${titleSonner}</h3>
+                        <p class='sonner-description'>
+                            ${descriptionSonner}
+                        </p>
+                    </span>
+                `
+
+            const FOUR_SECONDS = 1000 * 3// 4 seg
+            setTimeout(() => {
+                div_sonner.innerHTML = ''
+            }, FOUR_SECONDS)
+        }
+
+
+        function listMusics() {
+
+            const quantitiesMusics = playlist.length
+
+            if (quantitiesMusics == 0) {
+                main_list_musics.innerHTML = `
+                <div class='not-found'>
+                    <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                    <h3Playlist Vazia</h3>
+                </div>
+                `
+            } else {
+                let contentPlaylistHTML = ''
+
+                for (let positionPlaylist = 0; positionPlaylist < playlist.length; positionPlaylist++) {
+                    const music = playlist[positionPlaylist]
+
+                    let reviewsTotal = 0
+                    const quantitiesReviews = music.reviews.length
+                    for (let positionReview = 0; positionReview < quantitiesReviews; positionReview++) {
+                        const review = music.reviews[positionReview]
+
+                        reviewsTotal += review
+                    }
+
+                    const reviewMedium = Math.floor(reviewsTotal / quantitiesReviews)
+
+                    contentPlaylistHTML += `
+                        <div class='card-music'>
+                            <div class='music-cover'>
+                                <img src='${music.cover}' alt='cover da musica ${music.titleMusic}' />
+                                <span>
+                                    ${reviewMedium}
+                                </span>
+                            </div>
+                            <h3 class='music-title'>
+                                ${music.titleMusic} (${music.durationInMinutes})    
+                            </h3>
+                            <p>
+                                band:${music.band} (${music.yearOfRelease})     
+                            </p>
+                            <p>
+                                Integrantes: ${music.integrantes}    
+                            </p>
+                        </div>
+                    `
+                }
+
+                main_list_musics.innerHTML = contentPlaylistHTML
+            }
+        }
+
+        function removeMusicByTitle() {
+            const titleMusic = input_nome_da_musica.value
+
+
+        }
+
+        function registerMusicTest() {
+            const music = JSON.parse('{"titleMusic":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"review"}')
+
+            for (let index = 0; index < 10; index++) {
+                playlist.push(music)
+
+            }
+        }
+    </script>
+
 </body>
 
 </html>
