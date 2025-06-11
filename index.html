@@ -78,6 +78,18 @@
         <button type="button" onclick="listMusics()">
             Listar Musicas
         </button>
+        <button type="button" onclick="removeMusicByTitle()">
+            Remover Música
+        </button>
+        <button type="button" onclick="updateYearOfReleaseByTitle()">
+            Atualizar Ano de lançamento
+        </button>
+        <button type="button" onclick="calculateMediumReviewsByTitle()">
+            Calcular media de avaliações
+        </button>
+        <button type="button" onclick="findByMember()">
+            Encontrar banda
+        </button>
     </div>
 
     <main class="playlist" id="main_list_musics">
@@ -174,7 +186,7 @@
             for (let positionReview = 0; positionReview < reviews.length && isValidMusic; positionReview++) {
                 const review = reviews[positionReview]
                 const isInvalidReview = 0 >= review || review > 5
-                console.log(isInvalidReview)
+
                 if (isInvalidReview) {
 
                     isValidMusic = false
@@ -240,8 +252,8 @@
             } else {
                 let contentPlaylistHTML = ''
 
-                for (let positionPlaylist = 0; positionPlaylist < playlist.length; positionPlaylist++) {
-                    const music = playlist[positionPlaylist]
+                for (let positionPlaylist = 1; positionPlaylist <= playlist.length; positionPlaylist++) {
+                    const music = playlist[playlist.length - positionPlaylist]
 
                     let reviewsTotal = 0
                     const quantitiesReviews = music.reviews.length
