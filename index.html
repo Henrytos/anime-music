@@ -234,7 +234,7 @@
                 main_list_musics.innerHTML = `
                 <div class='not-found'>
                     <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
-                    <h3Playlist Vazia</h3>
+                    <h3> Playlist Vazia</h3>
                 </div>
                 `
             } else {
@@ -280,6 +280,52 @@
 
         function removeMusicByTitle() {
             const title = input_nome_da_musica.value
+            const quantitiesMusics = playlist.length
+
+            if (quantitiesMusics == 0) {
+                main_list_musics.innerHTML = `
+                <div class='not-found'>
+                    <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                    <h3> Playlist Vazia</h3>
+                </div>
+                `
+            }
+
+            let potionRemoveMusic = -1
+
+            for (let positionMusic = 0; positionMusic < quantitiesMusics; positionMusic++) {
+                const music = playlist[positionMusic]
+
+                if (music.title == title) {
+                    potionRemoveMusic = positionMusic
+                }
+            }
+
+            if (potionRemoveMusic == -1) {
+                main_list_musics.innerHTML = `
+                <div class='not-found'>
+                    <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                    <h3> Música não foi encontrada pelo nome: ${title}</h3>
+                </div>
+                `
+            } else {
+                const musicRemove = playlist[potionRemoveMusic]
+                playlist.splice(potionRemoveMusic, 1)
+
+                div_sonner.innerHTML = `
+                    <span class='sonner'>
+                        <h3 class='sonner-title'>Removido com sucesso</h3>
+                        <p class='sonner-description'>
+                            Musica ${musicRemove.title} Removida da playlist
+                        </p>
+                    </span>
+                `
+
+                const FOUR_SECONDS = 1000 * 3// 4 seg
+                setTimeout(() => {
+                    div_sonner.innerHTML = ''
+                }, FOUR_SECONDS)
+            }
 
 
         }
@@ -287,9 +333,54 @@
         function registerMusicTest() {
             const music = JSON.parse('{"title":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"review"}')
 
-            for (let index = 0; index < 10; index++) {
+            for (let index = 0; index < 1; index++) {
                 playlist.push(music)
 
+            }
+        }
+
+        function updateYearOfReleaseByTitle() {
+            const title = input_nome_da_musica.value
+            const yearOfRelease = Number(input_ano_lancamento.value)
+
+            let positionMusicTarget = -1
+            for (let positionMusic = 0; positionMusic < playlist.length; positionMusic++) {
+                const music = playlist[positionMusic]
+
+                if (music.title == title) {
+                    positionMusicTarget = positionMusic
+                }
+            }
+
+            if (positionMusicTarget == -1) {
+                main_list_musics.innerHTML = `
+                <div class='not-found'>
+                    <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                    <h3> Música não foi encontrada pelo nome: ${title}</h3>
+                </div>
+                `
+
+                const FOUR_SECONDS = 1000 * 3// 4 seg
+                setTimeout(() => {
+                    main_list_musics.innerHTML = ''
+                }, FOUR_SECONDS)
+            } else {
+                const oldYearOfRelease = playlist[positionMusicTarget].yearOfRelease
+                playlist[positionMusicTarget].yearOfRelease = yearOfRelease
+
+                div_sonner.innerHTML = `
+                    <span class='sonner'>
+                        <h3 class='sonner-title'>Atualizado com sucesso</h3>
+                        <p class='sonner-description'>
+                            Musica ${title} do ano ${oldYearOfRelease} foi atualizada para o ano ${yearOfRelease}
+                        </p>
+                    </span>
+                `
+
+                const FOUR_SECONDS = 1000 * 3// 4 seg
+                setTimeout(() => {
+                    div_sonner.innerHTML = ''
+                }, FOUR_SECONDS)
             }
         }
     </script>
