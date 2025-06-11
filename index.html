@@ -251,7 +251,7 @@
                         reviewsTotal += review
                     }
 
-                    const reviewMedium = Math.floor(reviewsTotal / quantitiesReviews)
+                    const reviewMedium = Math.round(reviewsTotal / quantitiesReviews)
 
                     contentPlaylistHTML += `
                         <div class='card-music'>
@@ -359,11 +359,6 @@
                     <h3> Música não foi encontrada pelo nome: ${title}</h3>
                 </div>
                 `
-
-                const FOUR_SECONDS = 1000 * 4// 4 seg
-                setTimeout(() => {
-                    main_list_musics.innerHTML = ''
-                }, FOUR_SECONDS)
             } else {
                 const oldYearOfRelease = playlist[positionMusicTarget].yearOfRelease
                 playlist[positionMusicTarget].yearOfRelease = yearOfRelease
@@ -405,11 +400,6 @@
                     <h3> Música não foi encontrada pelo nome: ${title}</h3>
                 </div>
                 `
-
-                const FOUR_SECONDS = 1000 * 4// 4 seg
-                setTimeout(() => {
-                    main_list_musics.innerHTML = ''
-                }, FOUR_SECONDS)
             } else {
                 const musicTarger = playlist[positionMusicTarget]
 
@@ -421,7 +411,7 @@
                     reviewsTotal += review
                 }
 
-                const reviewMedium = Math.floor(reviewsTotal / quantitiesReviews)
+                const reviewMedium = Math.round(reviewsTotal / quantitiesReviews)
 
                 main_list_musics.innerHTML = `
                     <div class='card-music'>
@@ -457,6 +447,96 @@
                 setTimeout(() => {
                     div_sonner.innerHTML = ''
                 }, FOUR_SECONDS)
+            }
+        }
+
+        function findByMember() {
+            const memberTarget = input_integrantes.value
+
+            const quantitiesMusics = playlist.length
+
+            if (quantitiesMusics == 0) {
+                main_list_musics.innerHTML = `
+                    <div class='not-found'>
+                        <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                        <h3> Música não foi encontrada pelo nome: ${title}</h3>
+                    </div>
+                    `
+            } else {
+                let positionMusicTarget = -1
+
+                for (let positionMusic = 0; positionMusic < quantitiesMusics; positionMusic++) {
+                    const music = playlist[positionMusic]
+
+                    for (let positionMember = 0; positionMember < playlist.length; positionMember++) {
+                        const member = music.members[positionMember]
+
+                        if (memberTarget == member) {
+                            positionMusicTarget = positionMusic
+                            break
+                        }
+                    }
+
+                    if (positionMusicTarget != -1) {
+                        break
+                    }
+                }
+
+                if (positionMusicTarget == -1) {
+                    main_list_musics.innerHTML = `
+                    <div class='not-found'>
+                        <img src='./assets/images/not-found-loli.png' alt='musica não encontrada' />
+                        <h3> Não foi possivel encontrar banda com o integrante ${memberTarget} </h3>
+                    </div>
+                `
+
+                    div_sonner.innerHTML = `
+                    <span class='sonner'>
+                        <h3 class='sonner-title'>Erro ao encontrar banda</h3>
+                        <p class='sonner-description'>
+                            Não foi possivel encontrar banda com o integrante ${memberTarget}
+                        </p>
+                    </span>
+                `
+
+                    const FOUR_SECONDS = 1000 * 4// 4 seg
+                    setTimeout(() => {
+                        div_sonner.innerHTML = ''
+                    }, FOUR_SECONDS)
+                } else {
+                    const musicTarger = playlist[positionMusicTarget]
+                    const band = musicTarger.band
+
+                    let reviewsTotal = 0
+                    const quantitiesReviews = musicTarger.reviews.length
+                    for (let positionReview = 0; positionReview < quantitiesReviews; positionReview++) {
+                        const review = musicTarger.reviews[positionReview]
+
+                        reviewsTotal += review
+                    }
+
+                    const reviewMedium = Math.round(reviewsTotal / quantitiesReviews)
+
+                    main_list_musics.innerHTML = `
+                    <div class='card-music'>
+                        <div class='music-cover'>
+                            <img src='${musicTarger.cover}' alt='cover da musica ${musicTarger.title}' />
+                            <span>
+                                ${reviewMedium}
+                            </span>
+                        </div>
+                        <h3 class='music-title'>
+                            ${musicTarger.title} (${musicTarger.durationInMinutes})    
+                        </h3>
+                        <p>
+                            band:${musicTarger.band} (${musicTarger.yearOfRelease})     
+                        </p>
+                        <p>
+                            Integrantes: ${musicTarger.members}    
+                        </p>
+                    </div>
+                    `
+                }
             }
         }
     </script>
