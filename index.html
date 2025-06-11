@@ -27,12 +27,14 @@
             </label>
 
             <input type="text" id="input_nome_da_banda" placeholder="Creepy Nuts">
-        </fieldset <fieldset class="input-control">
-        <label for="input_duracao_da_musica">
-            Duração da Música(minutos):
-        </label>
+        </fieldset>
+        <fieldset class="input-control">
 
-        <input type="number" id="input_duracao_da_musica" placeholder="5">
+            <label for="input_duracao_da_musica">
+                Duração da Música(minutos):
+            </label>
+
+            <input type="number" id="input_duracao_da_musica" placeholder="5">
         </fieldset>
 
         <fieldset class="input-control">
@@ -94,7 +96,7 @@
 
 
         function registerMusic() {
-            const titleMusic = input_nome_da_musica.value
+            const title = input_nome_da_musica.value
             const band = input_nome_da_banda.value
             const durationInMinutes = Number(input_duracao_da_musica.value)
             const yearOfRelease = Number(input_ano_lancamento.value)
@@ -107,7 +109,7 @@
 
             let isValidMusic = true
 
-            if (titleMusic == "") {
+            if (title == "") {
                 isValidMusic = false
 
                 titleSonner = 'Erro ao salvar música(titulo)'
@@ -128,8 +130,6 @@
                 descriptionSonner = 'Por favor informe a duração da música'
             }
 
-
-
             if (yearOfRelease == 0 && isValidMusic) {
                 isValidMusic = false
 
@@ -143,7 +143,6 @@
                 titleSonner = 'Erro ao salvar música(avaliações)'
                 descriptionSonner = 'Por favor informe as avaliações da música'
             }
-
 
             if (typedMembers == "" && isValidMusic) {
                 isValidMusic = false
@@ -159,13 +158,45 @@
                 descriptionSonner = 'Por favor informe a url da capa da música'
             }
 
+            let musicNotExists = false
+
+            for (let positionMusic = 0; positionMusic < playlist.length && isValidMusic; positionMusic++) {
+                const music = playlist[positionMusic]
+
+                if (music.title == title) {
+                    musicNotExists = true
+                    break
+                }
+            }
+
+            const reviews = typedReviews.split(",").map(Number);
+
+            for (let positionReview = 0; positionReview < reviews.length && isValidMusic; positionReview++) {
+                const review = reviews[positionReview]
+                const isInvalidReview = 0 >= review || review > 5
+                console.log(isInvalidReview)
+                if (isInvalidReview) {
+
+                    isValidMusic = false
+                    titleSonner = 'Erro ao salvar música'
+                    descriptionSonner = 'Avaliações devem estar entre 1 a 5'
+                    break
+                }
+            }
+
+            if (musicNotExists && isValidMusic) {
+                isValidMusic = false
+
+                titleSonner = 'Erro ao salvar música'
+                descriptionSonner = 'Música já existente na playlist'
+            }
+
             if (isValidMusic) {
 
-                const reviews = typedReviews.split(",").map(Number);
                 const members = typedMembers.split(",");
 
                 playlist.push({
-                    titleMusic,
+                    title,
                     band,
                     durationInMinutes,
                     yearOfRelease,
@@ -175,7 +206,7 @@
                 })
 
                 titleSonner = 'Sucesso ao adicionar Música'
-                descriptionSonner = ` A band(${band}) conseguiu guardar sua musica(${titleMusic}) com sucesso `
+                descriptionSonner = ` A band(${band}) conseguiu guardar sua musica(${title}) com sucesso `
 
             }
 
@@ -225,13 +256,13 @@
                     contentPlaylistHTML += `
                         <div class='card-music'>
                             <div class='music-cover'>
-                                <img src='${music.cover}' alt='cover da musica ${music.titleMusic}' />
+                                <img src='${music.cover}' alt='cover da musica ${music.title}' />
                                 <span>
                                     ${reviewMedium}
                                 </span>
                             </div>
                             <h3 class='music-title'>
-                                ${music.titleMusic} (${music.durationInMinutes})    
+                                ${music.title} (${music.durationInMinutes})    
                             </h3>
                             <p>
                                 band:${music.band} (${music.yearOfRelease})     
@@ -248,13 +279,13 @@
         }
 
         function removeMusicByTitle() {
-            const titleMusic = input_nome_da_musica.value
+            const title = input_nome_da_musica.value
 
 
         }
 
         function registerMusicTest() {
-            const music = JSON.parse('{"titleMusic":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"review"}')
+            const music = JSON.parse('{"title":"Abertura de mashe","band":"Crepy Nuts","durationInMinutes":4,"yearOfRelease":2023,"reviews":[5,4,2],"members":["henry","Jp"],"cover":"review"}')
 
             for (let index = 0; index < 10; index++) {
                 playlist.push(music)
