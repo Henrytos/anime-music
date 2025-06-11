@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Megrim&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --color-white: #f3f3f3;
+  --color-background: #141617;
+  --color-background-foreground: #f3f3f3;
+  --color-purple-light: #a39fbf;
+  --color-purple-black: #313646;
+  --color-red: #cb4648;
+  --color-red-light: #d97f77;
+
+  --size-sm: 14px;
+  --size-lg: 20px;
+  --size-2xl: 24px;
+  --size-3xl: 32px;
+  --size-4xl: 48px;
+  --size-6xl: 64px;
+  --size-7xl: 72px;
+  --size-8xl: 80px;
+  --size-9xl: 90px;
+
+  --font-light: 300;
+  --font-normal: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: var(--color-background);
+  z-index: 1000;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+/* Estiliza o track (trilho da barra) */
+::-webkit-scrollbar-track {
+  background: var(--color-background-foreground);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-purple-light);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-weight: var(--font-light);
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 10%;
+
+  background-color: var(--color-background);
+  color: var(--color-background-foreground);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  background-image: url("../images/back-ground.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.playlist {
+  grid-column-start: 1;
+  grid-column-end: 8;
+}
+
+form {
+  grid-column-start: 8;
+  grid-column-end: 13;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+h2 {
+  color: var(--color-red);
+  font-weight: var(--font-semibold);
+  font-size: var(--size-4xl);
+  font-family: "Megrim", system-ui;
+}
+
+h2::before {
+  content: " ";
+  width: 8px;
+  height: 50px;
+  background-color: var(--color-red);
+  display: block;
+  position: absolute;
+  transform: translate(-20px, 5px);
+}
+
+form h2 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+fieldset label {
+  transform: translateY(-28px);
+  transition: 0.2s;
+  cursor: pointer;
+  z-index: 10;
+}
+
+fieldset input {
+  all: unset;
+  opacity: 0;
+}
+
+.input-control:focus-within input {
+  opacity: 1;
+}
+
+fieldset input:valid {
+  opacity: 1;
+}
+
+.input-control input:focus + label,
+.input-control input:valid + label {
+  transform: translateY(-56px);
+}
+
+input {
+  border-bottom: 1px solid var(--color-background-foreground) !important;
+}
+
+.buttons-actions {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.buttons-actions button {
+  background-color: var(--color-background);
+  color: var(--color-purple-light);
+  border: 1px solid var(--color-purple-light);
+  padding: 5px 20px;
+  font-size: var(--size-sm);
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+
+.buttons-actions button:hover {
+  background-color: var(--color-purple-light);
+  color: var(--color-background);
+}

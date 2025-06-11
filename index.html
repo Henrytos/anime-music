@@ -5,96 +5,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Music</title>
+    <link rel="stylesheet" href="./assets/styles/index.css">
 </head>
 
 <body>
+
+    <main class="playlist">
+        <h2>
+            Musicas:
+        </h2>
+
+        <section id="main_list_musics"></section>
+    </main>
 
     <form>
         <h2>
             Dados Da Musica
         </h2>
         <fieldset class="input-control">
+            <input type="text" id="input_nome_da_musica" placeholder="Otonoke" required>
             <label for="input_nome_da_musica">
                 Nome da Musica:
             </label>
 
-            <input type="text" id="input_nome_da_musica" placeholder="Otonoke">
         </fieldset>
 
         <fieldset class="input-control">
+            <input type="text" id="input_nome_da_banda" placeholder="Creepy Nuts" required>
             <label for="input_nome_da_banda">
                 Nome da band:
             </label>
 
-            <input type="text" id="input_nome_da_banda" placeholder="Creepy Nuts">
         </fieldset>
         <fieldset class="input-control">
+            <input type="number" id="input_duracao_da_musica" placeholder="5" required>
 
             <label for="input_duracao_da_musica">
                 Duração da Música(minutos):
             </label>
 
-            <input type="number" id="input_duracao_da_musica" placeholder="5">
         </fieldset>
 
         <fieldset class="input-control">
+            <input type="text" id="input_ano_lancamento" placeholder="2024" required>
             <label for="input_ano_lancamento">
                 Ano de lançamento:
             </label>
 
-            <input type="text" id="input_ano_lancamento" placeholder="2024">
         </fieldset>
 
         <fieldset class="input-control">
+            <input type="text" id="input_avalacoes" placeholder="5, 4, 3, 4" required>
             <label for="input_avalacoes">
                 Avaliações da Música:
             </label>
 
-            <input type="text" id="input_avalacoes" placeholder="5, 4, 3, 4">
         </fieldset>
 
         <fieldset class="input-control">
+            <input type="text" id="input_integrantes" placeholder="DJ Matsunaga, R-Shitei" required>
             <label for="input_integrantes">
                 integrantes da band:
             </label>
 
-            <input type="text" id="input_integrantes" placeholder="DJ Matsunaga, R-Shitei">
         </fieldset>
 
         <fieldset class="input-control">
+            <input type="text" id="input_cover" placeholder="image url...." required>
             <label for="input_cover">
                 cover da musica:
             </label>
 
-            <input type="text" id="input_cover" placeholder="image url....">
         </fieldset>
-
+        <div class="buttons-actions">
+            <button type="button" onclick="registerMusic()">
+                Adicionar Música
+            </button>
+            <button type="button" onclick="listMusics()">
+                Listar Musicas
+            </button>
+            <button type="button" onclick="removeMusicByTitle()">
+                Remover Música
+            </button>
+            <button type="button" onclick="updateYearOfReleaseByTitle()">
+                Atualizar Ano de lançamento
+            </button>
+            <button type="button" onclick="calculateMediumReviewsByTitle()">
+                Calcular media de avaliações
+            </button>
+            <button type="button" onclick="findByMember()">
+                Encontrar banda
+            </button>
+        </div>
     </form>
 
-    <div class="buttons-actions">
-        <button type="button" onclick="registerMusic()">
-            Adicionar Música
-        </button>
-        <button type="button" onclick="listMusics()">
-            Listar Musicas
-        </button>
-        <button type="button" onclick="removeMusicByTitle()">
-            Remover Música
-        </button>
-        <button type="button" onclick="updateYearOfReleaseByTitle()">
-            Atualizar Ano de lançamento
-        </button>
-        <button type="button" onclick="calculateMediumReviewsByTitle()">
-            Calcular media de avaliações
-        </button>
-        <button type="button" onclick="findByMember()">
-            Encontrar banda
-        </button>
-    </div>
 
-    <main class="playlist" id="main_list_musics">
 
-    </main>
 
 
 
