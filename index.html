@@ -407,6 +407,7 @@
 
         if (quantitiesMusics == 0) {
           showNotFoundMusic("Playlist Vazia");
+          return;
         }
 
         let positionMusicTarget = -1;
@@ -423,6 +424,12 @@
         }
 
         if (title == "") {
+          sonner(
+            "Erro ao calcular as avaliações",
+            "Por favor informe o nome da música para realizar o cálculo corretamente",
+            "red"
+          );
+          return;
         } else if (positionMusicTarget == -1) {
           showNotFoundMusic(`Música não foi encontrada pelo nome: ${title}`);
         } else {
@@ -556,11 +563,11 @@
               "https://i.scdn.co/image/ab67616d0000b2733f6de9c0ca2148edf20daa6b",
           },
           {
-            title: "BingBang",
+            title: "Daten",
             band: "Creepy Nuts",
             durationInMinutes: 3,
             yearOfRelease: 2023,
-            reviews: [4, 4, 5, 5],
+            reviews: [5, 5, 5, 5],
             members: ["Matsunaga", "Shitei"],
             cover:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLecxQEnziAYqrbDv659VRyDRL-1ekOLj44w&s",
@@ -595,7 +602,7 @@
 
       function CardMusic(music, reviewMedium) {
         return `
-            <div class='card-music'>
+            <div class='card-music' onclick='playMusic("${music.title}")'>
               <div class='music-cover'>
                   <img src='${music.cover}' alt='cover da musica ${music.title}' />
                   <span>
@@ -615,27 +622,50 @@
         `;
       }
 
-      async function getMusicPreview() {
-        const musicTitle = document.getElementById(
-          "input_nome_da_musica"
-        ).value;
-        const url = `https://api.deezer.com/search?q=${encodeURIComponent(
-          musicTitle
-        )}`;
+      function getMusicPreview(title) {
+        return new Promise((resolve) => {
+          const url = `https://api.deezer.com/search?q=${encodeURIComponent(
+            title
+          )}`;
 
-        const proxy = "https://cors-anywhere.herokuapp.com/";
+          const proxy = "https://cors-anywhere.herokuapp.com/";
 
-        const response = await fetch(proxy + url);
-        const data = await response.json();
+          fetch(proxy + url)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data.data.length === 0) {
+                console.error("Nenhuma música encontrada.");
+                return resolve("");
+              }
 
-        if (data.data.length === 0) {
-          console.error("Nenhuma música encontrada.");
+              const music = data.data[0];
+
+              return resolve(music.preview);
+            });
+        });
+      }
+
+      function playMusic(title) {
+        console.log(title);
+        getMusicPreview(title).then((preview) => {
+          if (preview) {
+            audio_music.src = preview;
+            audio_music.play();
+            sonner(
+              "Sucesso ao tocar música",
+              `Tocando prévia da música ${title}`,
+              "green"
+            );
+            return;
+          }
+          sonner(
+            "Erro ao tocar música",
+            `Não foi possível encontrar a prévia da música ${title}`,
+            "red"
+          );
           return;
-        }
-
-        const music = data.data[0];
-
-        console.log(music);
+        });
       }
     </script>
   </body>
