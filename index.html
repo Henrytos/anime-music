@@ -133,56 +133,73 @@
         let isValidMusic = true;
 
         if (title == "") {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(título)",
+            "Por favor informe o título da música",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(titulo)";
-          descriptionSonner = "Por favor informe o titulo da música";
+          return;
         }
 
         if (band == "" && isValidMusic) {
-          isValidMusic = false;
-
-          titleSonner = "Erro ao salvar música(banda)";
-          descriptionSonner = "Por favor informe o nome da banda";
+          sonner(
+            "Erro ao salvar música(banda)",
+            "Por favor informe o nome da banda",
+            "red"
+          );
+          return;
         }
 
         if (durationInMinutes == 0 && isValidMusic) {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(duração)",
+            "Por favor informe a duração da música em minutos",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(duração)";
-          descriptionSonner = "Por favor informe a duração da música";
+          return;
         }
 
         if (yearOfRelease == 0 && isValidMusic) {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(ano de lançamento)",
+            "Por favor informe o ano de lançamento da música",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(ano de lançamento)";
-          descriptionSonner =
-            "Por favor informe a o ano de lançamento da música";
+          return;
         }
 
         if (typedReviews == "" && isValidMusic) {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(avaliações)",
+            "Por favor informe as avaliações da música",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(avaliações)";
-          descriptionSonner = "Por favor informe as avaliações da música";
+          return;
         }
 
         if (typedMembers == "" && isValidMusic) {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(integrantes)",
+            "Por favor informe os integrantes da banda",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(integrantes)";
-          descriptionSonner = "Por favor informe os integrates da banda";
+          return;
         }
 
         if (cover == "" && isValidMusic) {
-          isValidMusic = false;
+          sonner(
+            "Erro ao salvar música(cover)",
+            "Por favor informe a imagem de capa da música",
+            "red"
+          );
 
-          titleSonner = "Erro ao salvar música(capa)";
-          descriptionSonner = "Por favor informe a url da capa da música";
+          return;
         }
-
-        let musicNotExists = false;
 
         for (
           let positionMusic = 0;
@@ -193,7 +210,14 @@
 
           if (music.title == title) {
             musicNotExists = true;
-            break;
+
+            sonner(
+              "Erro ao salvar música",
+              `A música ${title} já existe na playlist`,
+              "red"
+            );
+
+            return;
           }
         }
 
@@ -208,46 +232,41 @@
           const isInvalidReview = 0 >= review || review > 5;
 
           if (isInvalidReview) {
-            isValidMusic = false;
-            titleSonner = "Erro ao salvar música";
-            descriptionSonner = "Avaliações devem estar entre 1 a 5";
-            break;
+            sonner(
+              "Erro ao salvar música(avaliações)",
+              `A avaliação ${review} é inválida. As avaliações devem ser entre 1 e 5`,
+              "red"
+            );
+
+            return;
           }
         }
 
-        if (musicNotExists && isValidMusic) {
-          isValidMusic = false;
+        const members = typedMembers.split(",");
 
-          titleSonner = "Erro ao salvar música";
-          descriptionSonner = "Música já existente na playlist";
-        }
+        playlist.push({
+          title,
+          band,
+          durationInMinutes,
+          yearOfRelease,
+          reviews,
+          members,
+          cover,
+        });
 
-        if (isValidMusic) {
-          const members = typedMembers.split(",");
+        sonner(
+          "Sucesso ao salvar música",
+          `A música ${title} foi adicionada com sucesso`,
+          "green"
+        );
 
-          playlist.push({
-            title,
-            band,
-            durationInMinutes,
-            yearOfRelease,
-            reviews,
-            members,
-            cover,
-          });
-
-          titleSonner = "Sucesso ao adicionar Música";
-          descriptionSonner = ` A band(${band}) conseguiu guardar sua musica(${title}) com sucesso `;
-
-          input_nome_da_musica.value = "";
-          input_nome_da_banda.value = "";
-          input_duracao_da_musica.value = "";
-          input_ano_lancamento.value = "";
-          input_avalacoes.value = "";
-          input_integrantes.value = "";
-          input_cover.value = "";
-        }
-
-        sonner(titleSonner, descriptionSonner, isValidMusic ? "green" : "red");
+        input_nome_da_musica.value = "";
+        input_nome_da_banda.value = "";
+        input_duracao_da_musica.value = "";
+        input_ano_lancamento.value = "";
+        input_avalacoes.value = "";
+        input_integrantes.value = "";
+        input_cover.value = "";
       }
 
       function listMusics() {
@@ -255,35 +274,36 @@
 
         if (quantitiesMusics == 0) {
           showNotFoundMusic("Playlist Vazia");
-        } else {
-          let contentPlaylistHTML = "";
+          return;
+        }
 
+        let contentPlaylistHTML = "";
+
+        for (
+          let positionPlaylist = 1;
+          positionPlaylist <= playlist.length;
+          positionPlaylist++
+        ) {
+          const music = playlist[playlist.length - positionPlaylist];
+
+          let reviewsTotal = 0;
+          const quantitiesReviews = music.reviews.length;
           for (
-            let positionPlaylist = 1;
-            positionPlaylist <= playlist.length;
-            positionPlaylist++
+            let positionReview = 0;
+            positionReview < quantitiesReviews;
+            positionReview++
           ) {
-            const music = playlist[playlist.length - positionPlaylist];
+            const review = music.reviews[positionReview];
 
-            let reviewsTotal = 0;
-            const quantitiesReviews = music.reviews.length;
-            for (
-              let positionReview = 0;
-              positionReview < quantitiesReviews;
-              positionReview++
-            ) {
-              const review = music.reviews[positionReview];
-
-              reviewsTotal += review;
-            }
-
-            const reviewMedium = Math.round(reviewsTotal / quantitiesReviews);
-
-            contentPlaylistHTML += CardMusic(music, reviewMedium);
+            reviewsTotal += review;
           }
 
-          main_list_musics.innerHTML = contentPlaylistHTML;
+          const reviewMedium = Math.round(reviewsTotal / quantitiesReviews);
+
+          contentPlaylistHTML += CardMusic(music, reviewMedium);
         }
+
+        main_list_musics.innerHTML = contentPlaylistHTML;
       }
 
       function removeMusicByTitle() {
@@ -292,6 +312,7 @@
 
         if (quantitiesMusics == 0) {
           showNotFoundMusic("Playlist Vazia");
+          return;
         }
 
         let potionRemoveMusic = -1;
@@ -314,18 +335,24 @@
             "Por favor informe o nome da música para realizar a remoção corretamente",
             "red"
           );
-        } else if (potionRemoveMusic == -1) {
-          showNotFoundMusic(`Música não foi encontrada pelo nome: ${title}`);
-        } else {
-          const musicRemove = playlist[potionRemoveMusic];
-          playlist.splice(potionRemoveMusic, 1);
-
-          sonner(
-            "Sucesso ao remover a música",
-            `A música ${musicRemove.title} foi removida com sucesso`,
-            "green"
-          );
+          return;
         }
+
+        if (potionRemoveMusic == -1) {
+          showNotFoundMusic(`Música não foi encontrada pelo nome: ${title}`);
+          return;
+        }
+
+        const musicRemove = playlist[potionRemoveMusic];
+        playlist.splice(potionRemoveMusic, 1);
+
+        sonner(
+          "Sucesso ao remover a música",
+          `A música ${musicRemove.title} foi removida com sucesso`,
+          "green"
+        );
+
+        listMusics();
       }
 
       function updateYearOfReleaseByTitle() {
@@ -505,6 +532,7 @@
           }
         }
       }
+
       function registerMusicTest() {
         playlist.push(
           {
